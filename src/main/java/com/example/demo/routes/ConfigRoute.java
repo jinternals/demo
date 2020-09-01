@@ -1,5 +1,6 @@
 package com.example.demo.routes;
 
+import org.apache.camel.Message;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
@@ -14,8 +15,10 @@ public class ConfigRoute extends RouteBuilder {
                     System.out.println(body);
                 })
                 .process(exchange -> {
-                    ConfigMessage body = exchange.getIn().getBody(ConfigMessage.class);
-                     exchange.getIn().setBody(new CaptivaMessage(body.getValue()));
+                    Message in = exchange.getIn();
+                    in.setHeader("dasdas", "sad");
+                    ConfigMessage body = in.getBody(ConfigMessage.class);
+                     in.setBody(new CaptivaMessage(body.getValue()));
                     System.out.println(body);
                 })
                 .to("direct:captiva");
